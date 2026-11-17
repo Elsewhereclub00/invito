@@ -1,0 +1,262 @@
+/* NYE 2027 · Elsewhere Events — stile preso dalla copertina "ready for the night?"
+   Foto in bianco e nero lavata di arancio, verde petrolio e blu, grana da pellicola,
+   titolo condensato enorme (Anton), scritte piccole larghissime e spaziate (Syncopate),
+   testo leggibile in Archivo largo. Target 16–20 anni: adesivi, nastro che scorre, entrate veloci. */
+
+@font-face { font-family: "Anton"; src: url(assets/font/anton.woff2) format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Syncopate"; src: url(assets/font/syncopate-400.woff2) format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Syncopate"; src: url(assets/font/syncopate-700.woff2) format("woff2"); font-weight: 700; font-display: swap; }
+@font-face { font-family: "Archivo"; src: url(assets/font/archivo.woff2) format("woff2-variations"), url(assets/font/archivo.woff2) format("woff2"); font-weight: 100 900; font-stretch: 62% 125%; font-display: swap; }
+
+:root {
+  /* colori della copertina */
+  --notte: #12131c;
+  --arancio: #c4532f;
+  --petrolio: #1f4a44;
+  --blu: #3346b8;
+  --lilla: #8a78c4;
+  --bianco: #f6f3ee;
+  --tenue: rgba(246, 243, 238, .72);
+  --linea: rgba(246, 243, 238, .28);
+  --vetro: rgba(14, 15, 24, .55);
+  /* nomi usati anche da statistiche.css */
+  --sfondo: var(--notte);
+  --testo: var(--bianco);
+  --accento: var(--arancio);
+  --accento-testo: var(--bianco);
+  --bordo: var(--linea);
+  --carta: rgba(14, 15, 24, .6);
+  --font-titolo: "Anton", "Impact", "Arial Narrow", sans-serif;
+  --font-largo: "Syncopate", "Arial Black", Arial, sans-serif;
+  --font-testo: "Archivo", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --raggio: 2px;
+  --margine: max(20px, env(safe-area-inset-left, 0px));
+  --durata: 420ms;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { -webkit-text-size-adjust: 100%; background: var(--notte); }
+body {
+  margin: 0;
+  min-height: 100vh;
+  min-height: 100svh;
+  background: var(--notte);
+  color: var(--bianco);
+  font-family: var(--font-testo);
+  font-stretch: 108%;
+  font-size: 17px;
+  line-height: 1.5;
+  overflow-x: hidden;
+  position: relative; z-index: 0;
+}
+/* sfondo: la copertina sfocata, con le luci arancio e blu */
+body::before {
+  content: ""; position: fixed; inset: 0; z-index: -1;
+  background:
+    radial-gradient(120% 60% at 100% 0%, rgba(196, 83, 47, .55), transparent 60%),
+    radial-gradient(90% 55% at 0% 55%, rgba(31, 74, 68, .55), transparent 65%),
+    radial-gradient(110% 60% at 100% 100%, rgba(51, 70, 184, .6), transparent 60%),
+    url(assets/sfondo.webp) center / cover no-repeat,
+    var(--notte);
+}
+/* grana da pellicola su tutto */
+.grana {
+  position: fixed; inset: -50%; z-index: 20; pointer-events: none; opacity: .13; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1.4 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grana 1s steps(4) infinite;
+}
+@keyframes grana { 0% { transform: translate(0, 0); } 25% { transform: translate(-3%, 2%); } 50% { transform: translate(2%, -3%); } 75% { transform: translate(-2%, -1%); } }
+
+/* pulsanti fissi in alto: X e musica */
+.barra {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 30;
+  display: flex; justify-content: space-between;
+  padding: calc(10px + env(safe-area-inset-top, 0px)) max(12px, env(safe-area-inset-right, 0px)) 0 max(12px, env(safe-area-inset-left, 0px));
+  pointer-events: none;
+}
+.icona {
+  pointer-events: auto; width: 44px; height: 44px; border-radius: var(--raggio);
+  border: 1px solid var(--linea); background: var(--vetro); color: var(--bianco);
+  display: grid; place-items: center; cursor: pointer;
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+}
+.icona svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.icona .off { display: none; }
+.icona[aria-pressed="false"] .on { display: none; }
+.icona[aria-pressed="false"] .off { display: block; }
+.icona:focus-visible, .btn:focus-visible, .link:focus-visible { outline: 3px solid var(--bianco); outline-offset: 3px; }
+
+main { max-width: 520px; margin: 0 auto; padding-left: var(--margine); padding-right: max(20px, env(safe-area-inset-right, 0px)); }
+
+.schermata {
+  position: relative;
+  min-height: 100vh; min-height: 100svh;
+  display: flex; flex-direction: column; justify-content: center; align-items: stretch;
+  gap: 14px;
+  padding: calc(66px + env(safe-area-inset-top, 0px)) 0 calc(30px + env(safe-area-inset-bottom, 0px));
+  text-align: center;
+  animation: entra var(--durata) ease both;
+}
+@keyframes entra { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+/* riga alta come nella copertina: ELSEWHERE EVENTS ········ NYE 2027 · 31.12.2026 */
+.intestazione {
+  position: relative; z-index: 1;
+  display: flex; justify-content: space-between; gap: 10px;
+  padding-bottom: 8px; border-bottom: 1px solid var(--linea);
+  font: 700 9.5px/1.3 var(--font-largo); letter-spacing: .26em; text-transform: uppercase; color: var(--tenue);
+  text-align: left;
+}
+.intestazione span:last-child { text-align: right; }
+@media (max-width: 440px) { .sigla-data { display: none; } }
+
+/* titolo enorme condensato */
+.titolone {
+  position: relative; z-index: 1; margin: 0;
+  font-family: var(--font-titolo); font-weight: 400; text-transform: uppercase;
+  font-size: clamp(78px, 25.5vw, 134px); line-height: .86; letter-spacing: .002em;
+  color: var(--bianco); text-align: left;
+  text-shadow: 2px 0 0 rgba(51, 70, 184, .9);
+  text-wrap: balance;
+}
+.titolone:focus { outline: none; }
+.titolone .riga { display: block; animation: sale .7s cubic-bezier(.2, .9, .2, 1) both; }
+.titolone .r2 { padding-left: 15%; animation-delay: .08s; }
+.titolone .r3 { text-align: right; animation-delay: .16s; }
+.titolone .destra { text-align: right; }
+.titolone .data {
+  display: inline-block; vertical-align: .95em; margin-right: .1em;
+  font-size: .3em; line-height: 1; padding: .1em .2em .05em;
+  background: var(--vetro); transform: skewX(-10deg); text-shadow: none;
+}
+.titolone.medio { font-size: clamp(52px, 16.5vw, 86px); text-align: center; }
+.titolone.medio .riga { text-align: left; }
+.titolone.medio .riga.destra { text-align: right; }
+@keyframes sale { from { opacity: 0; transform: translateY(.25em); } to { opacity: 1; transform: none; } }
+
+/* INGRESSO: la copertina */
+#s-ingresso {
+  margin-left: calc(-1 * var(--margine)); margin-right: calc(-1 * max(20px, env(safe-area-inset-right, 0px)));
+  padding-left: var(--margine); padding-right: max(20px, env(safe-area-inset-right, 0px));
+  justify-content: flex-start; gap: 14px; overflow: hidden;
+}
+/* la foto parte appena sotto il titolo (che si ridimensiona con la larghezza) e arriva in fondo */
+.foto-copertina {
+  --foto-top: calc(env(safe-area-inset-top, 0px) + 66px + 34px + 2.58 * clamp(78px, 25.5vw, 134px) - 22px);
+  position: absolute; z-index: 0; left: 0; right: 0; top: var(--foto-top);
+  width: 100%; height: calc(100% - var(--foto-top)); max-width: none;
+  object-fit: cover; object-position: 60% 0%;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 12%, #000 58%, rgba(0, 0, 0, .18) 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 12%, #000 58%, rgba(0, 0, 0, .18) 100%);
+}
+#s-ingresso::before {
+  content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(130% 55% at 85% 0%, rgba(196, 83, 47, .78), transparent 62%),
+    radial-gradient(80% 40% at 0% 30%, rgba(196, 83, 47, .35), transparent 70%);
+}
+#s-ingresso .intestazione { z-index: 2; }
+#s-ingresso .titolone { z-index: 2; }
+.piede-copertina {
+  position: relative; z-index: 2; margin-top: auto;
+  display: flex; flex-direction: column; gap: 9px; text-shadow: 0 1px 14px rgba(0, 0, 0, .75);
+}
+.sei-invitato, .etichetta-dj { margin: 0; font: 700 11px/1 var(--font-largo); letter-spacing: .4em; text-transform: uppercase; }
+.sei-invitato { color: var(--bianco); }
+.sei-invitato::before, .sei-invitato::after { content: "·"; margin: 0 .6em; color: var(--arancio); }
+.etichetta-dj { font-size: 13px; letter-spacing: .34em; margin-top: 2px; }
+.nomi-dj { margin: 0 0 8px; font: 700 12.5px/1.7 var(--font-largo); letter-spacing: .18em; text-transform: uppercase; }
+
+/* testi */
+.sotto { margin: 0; color: var(--tenue); font-size: 18px; text-wrap: balance; }
+.nota { margin: 0; color: var(--tenue); font-size: 14px; text-wrap: balance; }
+.nota:empty { display: none; }
+.tenue { color: var(--tenue); }
+.forte { font-weight: 650; }
+.countdown {
+  margin: -4px 0 0; color: var(--tenue); text-align: left;
+  font: 700 10.5px/1.4 var(--font-largo); letter-spacing: .26em; text-transform: uppercase; font-variant-numeric: tabular-nums;
+}
+
+/* nastro che scorre (generi e open bar) */
+.nastro {
+  margin: 4px calc(-1 * var(--margine)); overflow: hidden;
+  border-top: 1px solid var(--linea); border-bottom: 1px solid var(--linea);
+  background: rgba(246, 243, 238, .06);
+}
+.nastro-scorre {
+  display: inline-flex; white-space: nowrap; padding: 10px 0;
+  font: 700 12px/1 var(--font-largo); letter-spacing: .3em; text-transform: uppercase;
+  animation: scorri 22s linear infinite;
+}
+.nastro-scorre span { padding-right: 1.6em; }
+.nastro-scorre .punto { color: var(--arancio); }
+@keyframes scorri { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* OPEN BAR come un adesivo */
+.openbar {
+  align-self: center; margin: 10px 0 8px;
+  padding: 10px 22px 6px;
+  background: var(--bianco); color: var(--notte);
+  font: 400 clamp(46px, 15vw, 64px)/1 var(--font-titolo); text-transform: uppercase; letter-spacing: .01em;
+  transform: rotate(-3deg);
+  box-shadow: 6px 6px 0 var(--arancio);
+  animation: adesivo .6s .25s cubic-bezier(.2, 1.4, .4, 1) both;
+}
+@keyframes adesivo { from { opacity: 0; transform: rotate(-12deg) scale(1.25); } to { opacity: 1; transform: rotate(-3deg) scale(1); } }
+
+/* elenco informazioni */
+.info { list-style: none; margin: 0; padding: 0; text-align: left; }
+.info li { display: flex; flex-direction: column; gap: 5px; padding: 14px 0; border-top: 1px solid var(--linea); }
+.info li:last-child { border-bottom: 1px solid var(--linea); }
+.etichetta { color: var(--tenue); font: 700 9.5px/1.3 var(--font-largo); letter-spacing: .3em; text-transform: uppercase; }
+.etichetta::before { content: "· "; }
+.etichetta::after { content: " ·"; }
+.valore { font-size: 17px; line-height: 1.45; }
+.valore.larga { font: 700 13px/1.75 var(--font-largo); letter-spacing: .16em; text-transform: uppercase; }
+.voce { white-space: nowrap; }
+.link { color: var(--bianco); text-decoration: underline; text-underline-offset: 4px; text-decoration-color: var(--arancio); text-decoration-thickness: 2px; font-size: 15px; }
+
+.domanda { margin: 22px 0 0; font: 400 clamp(46px, 15vw, 62px)/1 var(--font-titolo); text-transform: uppercase; }
+.scelte { display: flex; flex-direction: column; gap: 12px; }
+
+/* pulsanti */
+.btn {
+  display: block; width: 100%; min-height: 56px;
+  padding: 18px 16px; border-radius: var(--raggio);
+  border: 1px solid rgba(246, 243, 238, .6); background: var(--vetro); color: var(--bianco);
+  font: 700 12.5px/1.25 var(--font-largo); letter-spacing: .18em; text-transform: uppercase;
+  text-align: center; text-decoration: none; cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  transition: transform .1s ease, box-shadow .1s ease;
+}
+.btn:active { transform: translate(2px, 2px); }
+.btn.primario { background: var(--bianco); color: var(--notte); border-color: var(--bianco); box-shadow: 5px 5px 0 var(--arancio); }
+.btn.primario:active { box-shadow: 2px 2px 0 var(--arancio); }
+
+/* foto nelle schermate di risposta */
+.foto-riquadro {
+  align-self: center; width: min(74vw, 330px); height: auto; aspect-ratio: 900 / 762; object-fit: cover;
+  border: 1px solid var(--linea); transform: rotate(-2.5deg); box-shadow: 8px 8px 0 var(--blu);
+  margin-bottom: 10px; max-width: 100%;
+}
+.foto-riquadro.spenta { filter: grayscale(1) brightness(.75); box-shadow: 8px 8px 0 var(--petrolio); }
+
+.privacy { margin: 16px 0 0; color: var(--tenue); font-size: 12px; text-align: center; }
+.contatti { margin: 8px 0 0; color: var(--tenue); font-size: 14px; }
+.contatti a { color: var(--bianco); text-decoration-color: var(--arancio); }
+.noscript { padding: 40px 20px; text-align: center; }
+
+@media (min-width: 700px) {
+  .schermata { padding-top: 84px; }
+  #s-ingresso { border-left: 1px solid var(--linea); border-right: 1px solid var(--linea); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .schermata, .titolone .riga, .openbar { animation: none; }
+  .grana { animation: none; }
+  .nastro-scorre { animation: none; }
+  .btn { transition: none; }
+}

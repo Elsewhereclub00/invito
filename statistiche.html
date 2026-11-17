@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Statistiche invito NYE</title>
+<link rel="icon" href="assets/favicon.png">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#12131c">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="statistiche.css">
+</head>
+<body class="stat">
+<div class="grana" aria-hidden="true"></div>
+<main class="cruscotto">
+  <header class="testa">
+    <div class="intestazione"><span>Elsewhere Events</span><span>Pagina riservata</span></div>
+    <div class="riga-testa">
+      <h1 class="titolone medio">Statistiche</h1>
+      <div class="azioni" id="azioni" hidden>
+        <button class="btn piccolo" id="btn-aggiorna" type="button">Aggiorna</button>
+        <button class="btn piccolo" id="btn-esci" type="button">Esci</button>
+      </div>
+    </div>
+    <p class="nota" id="stato" role="status"></p>
+  </header>
+
+  <p class="esempio" id="esempio" hidden>Dati di esempio: il servizio dei conteggi non è ancora collegato.</p>
+
+  <form class="accesso" id="accesso" hidden>
+    <label for="pin">Password delle statistiche</label>
+    <input id="pin" name="pin" type="password" autocomplete="current-password" required>
+    <button class="btn primario" type="submit">Entra</button>
+    <p class="errore" id="errore" role="alert"></p>
+  </form>
+
+  <section id="contenuto" hidden>
+    <div class="riquadri">
+      <div class="riquadro"><span class="etichetta">Link aperti</span><span class="numero" id="n-visite">–</span></div>
+      <div class="riquadro"><span class="etichetta">Inviti aperti</span><span class="numero" id="n-aperture">–</span></div>
+      <div class="riquadro evidenza"><span class="etichetta">Sono interessato</span><span class="numero" id="n-si">–</span><span class="sotto-numero" id="p-si"></span></div>
+      <div class="riquadro"><span class="etichetta">Non sono interessato</span><span class="numero" id="n-no">–</span><span class="sotto-numero" id="p-no"></span></div>
+      <div class="riquadro"><span class="etichetta">Clic "Prendi il biglietto"</span><span class="numero" id="n-biglietto">–</span></div>
+      <div class="riquadro"><span class="etichetta">Clic "Entra nel gruppo"</span><span class="numero" id="n-gruppo">–</span></div>
+    </div>
+
+    <h2 class="sezione">Percorso</h2>
+    <div class="percorso" id="percorso"></div>
+
+    <h2 class="sezione">Giorno per giorno</h2>
+    <div class="tabella-box">
+      <table class="tabella">
+        <thead><tr><th>Giorno</th><th>Link aperti</th><th>Inviti aperti</th><th>Sì</th><th>No</th><th>Biglietto</th><th>Gruppo</th></tr></thead>
+        <tbody id="giorni"></tbody>
+      </table>
+    </div>
+    <p class="nota piede">Conteggi anonimi, uno per telefono. Chi cambia idea sposta il suo voto. Cambi di idea: <span id="n-cambi">0</span>.</p>
+  </section>
+</main>
+<script src="config.js"></script>
+<script src="statistiche.js"></script>
+</body>
+</html>

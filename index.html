@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>New Year's Eve · Elsewhere Events</title>
+<meta name="description" content="Sei invitato. Apri l'invito.">
+<meta name="theme-color" content="#12131c">
+<meta name="robots" content="noindex">
+<meta property="og:type" content="website">
+<meta property="og:title" content="NEW YEAR'S EVE · 31.12">
+<meta property="og:description" content="Sei invitato. Apri l'invito.">
+<meta property="og:url" content="https://elsewhereclub00.github.io/invito/">
+<meta property="og:image" content="https://elsewhereclub00.github.io/invito/assets/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<link rel="icon" href="assets/favicon.png">
+<link rel="preload" href="assets/font/anton.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/font/syncopate-700.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<audio id="musica" src="assets/musica.mp3" preload="auto" loop playsinline></audio>
+<div class="grana" aria-hidden="true"></div>
+
+<div class="barra">
+  <button class="icona" id="btn-chiudi" type="button" aria-label="Chiudi la pagina">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+  </button>
+  <button class="icona" id="btn-audio" type="button" aria-label="Musica spenta" aria-pressed="false" hidden>
+    <svg class="on" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16 9a4 4 0 010 6M18.5 6.5a8 8 0 010 11"/></svg>
+    <svg class="off" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16 9l5 6M21 9l-5 6"/></svg>
+  </button>
+</div>
+
+<main>
+  <!-- 1. INGRESSO: copertina della grafica, il tocco fa partire la musica -->
+  <section class="schermata attiva" id="s-ingresso" aria-labelledby="t-ingresso">
+    <div class="intestazione"><span data-testo="marchio">Elsewhere Events</span><span><span data-testo="sigla">NYE 2027</span><span class="sigla-data"> · 31.12.2026</span></span></div>
+    <h1 id="t-ingresso" class="titolone" aria-label="New Year's Eve, 31 dicembre">
+      <span class="riga r1" aria-hidden="true">New</span>
+      <span class="riga r2" aria-hidden="true">Year’s</span>
+      <span class="riga r3" aria-hidden="true"><span class="data">31.12</span>Eve</span>
+    </h1>
+    <img class="foto-copertina" src="assets/foto.webp" alt="" width="900" height="762">
+    <div class="piede-copertina">
+      <p class="sei-invitato">Sei invitato</p>
+      <p class="etichetta-dj">DJs</p>
+      <p class="nomi-dj" id="lineup-ingresso"></p>
+      <button class="btn primario" id="btn-apri" type="button">Apri l'invito</button>
+      <p class="nota">con musica · alza il volume</p>
+    </div>
+  </section>
+
+  <!-- 2. INVITO: informazioni e domanda -->
+  <section class="schermata" id="s-invito" aria-labelledby="t-invito" hidden>
+    <div class="intestazione"><span data-testo="marchio">Elsewhere Events</span><span><span data-testo="sigla">NYE 2027</span><span class="sigla-data"> · 31.12.2026</span></span></div>
+    <h2 id="t-invito" class="titolone medio" tabindex="-1" aria-label="New Year's Eve">
+      <span class="riga" aria-hidden="true">New Year’s</span>
+      <span class="riga destra" aria-hidden="true"><span class="data">31.12</span>Eve</span>
+    </h2>
+    <p class="countdown" id="countdown" aria-live="off"></p>
+
+    <div class="nastro" aria-hidden="true"><div class="nastro-scorre" id="nastro"></div></div>
+
+    <div class="openbar">Open bar</div>
+
+    <ul class="info">
+      <li><span class="etichetta">Quando</span><span class="valore" data-testo="dataTesto">31 dicembre, dalle 22:30 fino a tardi</span></li>
+      <li><span class="etichetta">Dove</span><span class="valore"><span class="forte" data-testo="luogo"></span><br><span class="tenue" data-testo="luogoDettaglio"></span><br><a class="link" id="link-mappe" href="#" target="_blank" rel="noopener">Apri in Mappe</a></span></li>
+      <li><span class="etichetta">Line-up</span><span class="valore larga" id="lineup"></span></li>
+      <li><span class="etichetta">Generi musicali</span><span class="valore larga" id="generi"></span></li>
+      <li><span class="etichetta">Organizzato da</span><span class="valore" id="organizzatori"></span></li>
+    </ul>
+
+    <h3 class="domanda">Ci sei?</h3>
+    <div class="scelte">
+      <button class="btn primario" id="btn-si" type="button">Sono interessato</button>
+      <button class="btn" id="btn-no" type="button">Non sono interessato</button>
+    </div>
+    <p class="privacy">Questa pagina conta in modo anonimo quante persone la aprono e cosa rispondono. Nessun dato personale.</p>
+  </section>
+
+  <!-- 3a. SÌ -->
+  <section class="schermata" id="s-si" aria-labelledby="t-si" hidden>
+    <img class="foto-riquadro" src="assets/foto.webp" alt="" width="900" height="762">
+    <h2 id="t-si" class="titolone medio" tabindex="-1">Grande, ci vediamo il 31</h2>
+    <p class="sotto">Nel gruppo trovi volantino, novità e tutte le info.</p>
+    <a class="btn primario" id="btn-gruppo" href="#">Entra nel gruppo WhatsApp</a>
+    <p class="nota" id="msg-gruppo" role="status"></p>
+    <a class="btn" id="btn-biglietto" href="#" target="_blank" rel="noopener">Prendi subito il biglietto</a>
+    <p class="nota">Nel gruppo scrivono solo gli organizzatori.</p>
+    <p class="contatti" id="contatti-si"></p>
+  </section>
+
+  <!-- 3b. NO -->
+  <section class="schermata" id="s-no" aria-labelledby="t-no" hidden>
+    <img class="foto-riquadro spenta" src="assets/foto.webp" alt="" width="900" height="762">
+    <h2 id="t-no" class="titolone medio" tabindex="-1">Peccato</h2>
+    <p class="sotto">Se cambi idea, il link resta nella chat. Ti aspettiamo.</p>
+    <button class="btn primario" id="btn-cambio" type="button">Ho cambiato idea</button>
+    <button class="btn" id="btn-chiudi-2" type="button">Chiudi la pagina</button>
+    <p class="contatti" id="contatti-no"></p>
+  </section>
+
+  <!-- FINE: se il browser non chiude la scheda -->
+  <section class="schermata" id="s-fine" aria-labelledby="t-fine" hidden>
+    <h2 id="t-fine" class="titolone medio" tabindex="-1">Ciao!</h2>
+    <p class="sotto">Ora puoi chiudere questa scheda.</p>
+    <p class="nota">Su WhatsApp o Instagram tocca la X o «Fine» in alto. Su Safari o Chrome chiudi la scheda.</p>
+    <button class="btn" id="btn-torna" type="button">Torna all'invito</button>
+  </section>
+</main>
+
+<noscript><p class="noscript">Per vedere l'invito attiva JavaScript nel browser.</p></noscript>
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
