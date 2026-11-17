@@ -37,12 +37,13 @@
   <!-- 1. INGRESSO: copertina della grafica, il tocco fa partire la musica -->
   <section class="schermata attiva" id="s-ingresso" aria-labelledby="t-ingresso">
     <div class="intestazione"><span data-testo="marchio">Elsewhere Events</span><span><span data-testo="sigla">NYE 2027</span><span class="sigla-data"> · 31.12.2026</span></span></div>
-    <h1 id="t-ingresso" class="titolone" aria-label="New Year's Eve, 31 dicembre">
+    <h1 id="t-ingresso" class="titolone" aria-label="New Year's Eve, 31 dicembre, La Cantina">
       <span class="riga r1" aria-hidden="true">New</span>
       <span class="riga r2" aria-hidden="true">Year’s</span>
       <span class="riga r3" aria-hidden="true"><span class="data">31.12</span>Eve</span>
+      <span class="riga r4 posto" aria-hidden="true">La Cantina</span>
     </h1>
-    <img class="foto-copertina" src="assets/foto.webp" alt="" width="900" height="762">
+    <img class="foto-copertina" src="assets/foto.webp" alt="" width="900" height="900">
     <div class="piede-copertina">
       <p class="sei-invitato">Sei invitato</p>
       <p class="etichetta-dj">DJs</p>
@@ -58,6 +59,7 @@
     <h2 id="t-invito" class="titolone medio" tabindex="-1" aria-label="New Year's Eve">
       <span class="riga" aria-hidden="true">New Year’s</span>
       <span class="riga destra" aria-hidden="true"><span class="data">31.12</span>Eve</span>
+      <span class="riga destra posto" aria-hidden="true">La Cantina</span>
     </h2>
     <p class="countdown" id="countdown" aria-live="off"></p>
 
@@ -67,11 +69,13 @@
 
     <ul class="info">
       <li><span class="etichetta">Quando</span><span class="valore" data-testo="dataTesto">31 dicembre, dalle 22:30 fino a tardi</span></li>
-      <li><span class="etichetta">Dove</span><span class="valore"><span class="forte" data-testo="luogo"></span><br><span class="tenue" data-testo="luogoDettaglio"></span><br><a class="link" id="link-mappe" href="#" target="_blank" rel="noopener">Apri in Mappe</a></span></li>
+      <li class="dove"><span class="etichetta">Dove</span><span class="valore"><span class="forte" data-testo="luogo"></span><span class="tenue" data-testo="luogoDettaglio"></span><a class="link" id="link-mappe" href="#" target="_blank" rel="noopener"><span data-testo="indirizzo"></span> <span class="freccia" aria-hidden="true">↗</span><span class="solo-lettori"> (apri in Mappe)</span></a></span></li>
       <li><span class="etichetta">Line-up</span><span class="valore larga" id="lineup"></span></li>
       <li><span class="etichetta">Generi musicali</span><span class="valore larga" id="generi"></span></li>
       <li><span class="etichetta">Organizzato da</span><span class="valore" id="organizzatori"></span></li>
     </ul>
+
+    <p class="motto" data-testo="motto">Make it the night you talk about all of 2027.</p>
 
     <h3 class="domanda">Ci sei?</h3>
     <div class="scelte">
@@ -83,10 +87,17 @@
 
   <!-- 3a. SÌ -->
   <section class="schermata" id="s-si" aria-labelledby="t-si" hidden>
-    <img class="foto-riquadro" src="assets/foto.webp" alt="" width="900" height="762">
+    <img class="foto-riquadro" src="assets/foto.webp" alt="" width="900" height="900">
     <h2 id="t-si" class="titolone medio" tabindex="-1">Grande, ci vediamo il 31</h2>
     <p class="sotto">Nel gruppo trovi volantino, novità e tutte le info.</p>
     <a class="btn primario" id="btn-gruppo" href="#">Entra nel gruppo WhatsApp</a>
+    <div class="aiuto-gruppo" id="aiuto-gruppo" hidden>
+      <p class="nota">Si apre WhatsApp: tocca <b>Unisciti</b>. Non si è aperto?</p>
+      <div class="aiuto-azioni">
+        <button class="btn" id="btn-riprova" type="button">Riprova</button>
+        <button class="btn" id="btn-copia" type="button">Copia il link</button>
+      </div>
+    </div>
     <p class="nota" id="msg-gruppo" role="status"></p>
     <a class="btn" id="btn-biglietto" href="#" target="_blank" rel="noopener">Prendi subito il biglietto</a>
     <p class="nota">Nel gruppo scrivono solo gli organizzatori.</p>
@@ -95,7 +106,7 @@
 
   <!-- 3b. NO -->
   <section class="schermata" id="s-no" aria-labelledby="t-no" hidden>
-    <img class="foto-riquadro spenta" src="assets/foto.webp" alt="" width="900" height="762">
+    <img class="foto-riquadro spenta" src="assets/foto.webp" alt="" width="900" height="900">
     <h2 id="t-no" class="titolone medio" tabindex="-1">Peccato</h2>
     <p class="sotto">Se cambi idea, il link resta nella chat. Ti aspettiamo.</p>
     <button class="btn primario" id="btn-cambio" type="button">Ho cambiato idea</button>

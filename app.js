@@ -9,8 +9,10 @@
     dataTesto: '31 dicembre, dalle 22:30 fino a tardi',
     inizio: '2026-12-31T22:30:00+01:00',           // per il countdown
     luogo: 'La Cantina Underground',
-    luogoDettaglio: 'Villa Majnoni, Marti (PI)',
-    mappe: 'https://www.google.com/maps/search/?api=1&query=Villa%20Majnoni%2C%20Marti%20PI',
+    luogoDettaglio: 'Villa Majnoni · Marti (PI)',
+    indirizzo: 'Via Mazzana 1, 56020',
+    mappe: 'https://www.google.com/maps/search/?api=1&query=43.651761%2C10.740269',   // punto del link Maps della grafica
+    motto: 'Make it the night you talk about all of 2027.',
     lineup: ['Guido Testi', 'Francesco Faralli', 'DJ Tasso'],   // in quest'ordine
     generi: ['Reggaeton', 'Hip hop', 'White girl music', 'Disco house'],   // in quest'ordine
     organizzatori: ['Achille Emili', 'Francesco Faralli'],
@@ -235,7 +237,7 @@
     btnAudio.hidden = false;
     mostra('invito');
   });
-  $('#btn-si').addEventListener('click', function () { contaRisposta('si'); mostra('si'); });
+  $('#btn-si').addEventListener('click', function () { contaRisposta('si'); preparaGruppo(); mostra('si'); });
   $('#btn-no').addEventListener('click', function () { contaRisposta('no'); mostra('no'); });
   $('#btn-cambio').addEventListener('click', function () {
     mostra('invito');
@@ -247,11 +249,59 @@
     mostra(precedente === 'ingresso' ? 'ingresso' : precedente);
     if (precedente !== 'ingresso' && !utenteMuto) avviaMusica();
   });
+  /* ---------- entrare nel gruppo WhatsApp ----------
+     Sul telefono si apre direttamente l'app (whatsapp://chat/?code=…, lo stesso indirizzo che usa la pagina
+     di invito di WhatsApp), così non si passa dalla pagina chat.whatsapp.com che in alcuni browser resta bianca.
+     Sotto compaiono "Riprova" e "Copia il link" se l'app non si apre. Sul computer si apre la pagina di invito. */
+  var suTelefono = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) ||
+    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  function linkGruppo() { return decodifica(CONFIG.gruppoCodificato); }
+  function codiceGruppo(link) { var m = /^https:\/\/chat\.whatsapp\.com\/([A-Za-z0-9]+)/.exec(link); return m ? m[1] : ''; }
+  function preparaGruppo() {
+    var a = $('#btn-gruppo'), link = linkGruppo();
+    a.href = link || '#';
+    if (link && !suTelefono) { a.target = '_blank'; a.rel = 'noopener'; } else { a.removeAttribute('target'); }
+  }
+  function apriApp(link) {
+    var codice = codiceGruppo(link);
+    if (!codice) { window.location.href = link; return; }
+    window.location.href = 'whatsapp://chat/?code=' + codice;
+  }
+  function copiaTesto(t) {
+    function vecchio() {
+      var ta = document.createElement('textarea');
+      ta.value = t; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.top = '0'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select(); try { ta.setSelectionRange(0, t.length); } catch (e) {}
+      var ok = false; try { ok = document.execCommand('copy'); } catch (e) {}
+      document.body.removeChild(ta); return ok;
+    }
+    if (navigator.clipboard && window.isSecureContext) {
+      return navigator.clipboard.writeText(t).then(function () { return true; }, function () { return vecchio(); });
+    }
+    return Promise.resolve(vecchio());
+  }
   $('#btn-gruppo').addEventListener('click', function (e) {
     contaUnaVolta('g', 'gruppo');
-    var link = decodifica(CONFIG.gruppoCodificato);
+    var link = linkGruppo();
     if (!link) { e.preventDefault(); $('#msg-gruppo').textContent = 'Il link del gruppo arriva a breve.'; return; }
     this.href = link;
+    $('#msg-gruppo').textContent = '';
+    if (suTelefono) {
+      e.preventDefault();
+      $('#aiuto-gruppo').hidden = false;
+      apriApp(link);
+    }
+  });
+  $('#btn-riprova').addEventListener('click', function () {
+    var link = linkGruppo(); if (link) window.location.href = link;   // seconda strada: pagina di invito di WhatsApp
+  });
+  $('#btn-copia').addEventListener('click', function () {
+    var link = linkGruppo(); if (!link) return;
+    copiaTesto(link).then(function (ok) {
+      $('#msg-gruppo').textContent = ok
+        ? 'Link copiato. Incollalo in una chat WhatsApp (anche con te stesso) e toccalo.'
+        : 'Copia questo link e incollalo in WhatsApp: ' + link;
+    });
   });
   $('#btn-biglietto').addEventListener('click', function () { contaUnaVolta('b', 'biglietto'); });
 
