@@ -18,7 +18,7 @@
     organizzatori: ['Achille Emili', 'Francesco Faralli'],
     linkBiglietto: 'https://elsewhereclub00.github.io/NYE-26-27/',
     // Link del gruppo codificato: in console invito.codificaLink('https://chat.whatsapp.com/...') e incolla qui il risultato.
-    gruppoCodificato: 'SFld3t0ZFdDb4NzMSRGb2NFbPlldH9SbvNmLwBXYzRXYodnL0FGaj9yL6MHc0RHa',  // community Elsewhere Events (17/11)
+    gruppoCodificato: '==Adfl2Z9UGZv12PyoWORNkQ0IHUrdUZt12YUVjZ1cHVJ9SbvNmLwBXYzRXYodnL0FGaj9yL6MHc0RHa',  // gruppo "NEW YEAR'S EVE" (17/11, 10:40)
     contatti: [
       { nome: 'Achille', wa: '393493705864' },
       { nome: 'Francesco', wa: '393514660549' }
